@@ -1,5 +1,8 @@
 //============================================================================
 //
+//  Arrow SoCKit / DE10-Standard / DE1-SoC MiSTer hardware abstraction module 
+//  2022 by Somhic https://github.com/somhi, based on 2019 work by modernhackers
+//
 //  MiSTer hardware abstraction module
 //  (c)2017-2020 Alexey Melnikov
 //
@@ -22,6 +25,7 @@
 module sys_top
 (
 	/////////// CLOCK //////////
+
 	input         FPGA_CLK1_50,
 	input         FPGA_CLK2_50,
 	input         FPGA_CLK3_50,
@@ -46,15 +50,15 @@ module sys_top
 	//////////// SDR ///////////
 	output [12:0] SDRAM_A,
 	inout  [15:0] SDRAM_DQ,
-	output        SDRAM_DQML,
-	output        SDRAM_DQMH,
+	//output        SDRAM_DQML,
+	//output        SDRAM_DQMH,
 	output        SDRAM_nWE,
 	output        SDRAM_nCAS,
 	output        SDRAM_nRAS,
 	output        SDRAM_nCS,
 	output  [1:0] SDRAM_BA,
 	output        SDRAM_CLK,
-	output        SDRAM_CKE,
+	//output        SDRAM_CKE,
 
 `ifdef MISTER_DUAL_SDRAM
 	////////// SDR #2 //////////
@@ -82,9 +86,9 @@ module sys_top
 	output 		  VGA_SYNC_N,
 
 	/////////// AUDIO //////////
-	output		  AUDIO_L,
-	output		  AUDIO_R,
-	output		  AUDIO_SPDIF,
+	//output		  AUDIO_L,
+	//output		  AUDIO_R,
+	//output		  AUDIO_SPDIF,
 
 	//SoCkit, DE10-standard, DE1-SoC implementation for on-board AUDIO CODEC
 	inout wire    AUD_ADCLRCK,  // Audio CODEC ADC LR Clock
@@ -99,17 +103,17 @@ module sys_top
     output wire   AUD_I2C_SCLK,     // I2C Clock
 
 	//////////// SDIO ///////////
-	inout   [3:0] SDIO_DAT,
-	inout         SDIO_CMD,
-	output        SDIO_CLK,
+	//inout   [3:0] SDIO_DAT,
+	//inout         SDIO_CMD,
+	//output        SDIO_CLK,
 
 	//////////// I/O ///////////
-	output        LED_USER,
-	output        LED_HDD,
-	output        LED_POWER,
-	input         BTN_USER,
-	input         BTN_OSD,
-	input         BTN_RESET,
+//	output        LED_USER,
+//	output        LED_HDD,
+//	output        LED_POWER,
+//	input         BTN_USER,
+//	input         BTN_OSD,
+//	input         BTN_RESET,
 `endif
 
 	////////// I/O ALT /////////
@@ -118,9 +122,9 @@ module sys_top
 	// output        SD_SPI_CLK,
 	// output        SD_SPI_MOSI,
 
-	inout         SDCD_SPDIF,
-	output        IO_SCL,
-	inout         IO_SDA,
+	//inout         SDCD_SPDIF,
+	//output        IO_SCL,
+	//inout         IO_SDA,
 
 	////////// ADC //////////////
 	// output        ADC_SCK,
@@ -142,10 +146,11 @@ module sys_top
 	output LED_0_USER,
 	output LED_1_HDD,
 	output LED_2_POWER,
-	output LED_3_LOCKED,
+	output LED_3_LOCKED
+	//,
 
 	///////// USER IO ///////////
-	inout   [6:0] USER_IO
+	//inout   [6:0] USER_IO
 );
 
 //SoCkit, DE10-standard, DE1-SoC board implementation
@@ -190,18 +195,18 @@ assign SW[3] = 1'b0;		//necessary for VGA mode
 //////////////////////  Secondary SD  ///////////////////////////////////
 wire SD_CS, SD_CLK, SD_MOSI;
 
-`ifndef MISTER_DUAL_SDRAM
-	wire sd_miso = SW[3] | SDIO_DAT[0];
-`else
+//`ifndef MISTER_DUAL_SDRAM
+//	wire sd_miso = SW[3] | SDIO_DAT[0];
+//`else
 	wire sd_miso = 1;
-`endif
+//`endif
 wire SD_MISO = mcp_sdcd ? sd_miso : SD_SPI_MISO;
 
 `ifndef MISTER_DUAL_SDRAM
-	assign SDIO_DAT[2:1]= 2'bZZ;
-	assign SDIO_DAT[3]  = SW[3] ? 1'bZ  : SD_CS;
-	assign SDIO_CLK     = SW[3] ? 1'bZ  : SD_CLK;
-	assign SDIO_CMD     = SW[3] ? 1'bZ  : SD_MOSI;
+	//assign SDIO_DAT[2:1]= 2'bZZ;
+	//assign SDIO_DAT[3]  = SW[3] ? 1'bZ  : SD_CS;
+	//assign SDIO_CLK     = SW[3] ? 1'bZ  : SD_CLK;
+	//assign SDIO_CMD     = SW[3] ? 1'bZ  : SD_MOSI;
 	assign SD_SPI_CS    = mcp_sdcd ? ((~VGA_EN & sog & ~cs1) ? 1'b1 : 1'bZ) : SD_CS;
 `else
 	assign SD_SPI_CS    = mcp_sdcd ? 1'bZ : SD_CS;
@@ -220,24 +225,25 @@ wire led_d =  led_disk[1]  ? ~led_disk[0]  : ~(led_disk[0] | gp_out[29]);
 wire led_u = ~led_user;
 wire led_locked;
 
-`ifndef MISTER_DUAL_SDRAM
-	assign LED_POWER = (SW[3] | led_p) ? 1'bZ : 1'b0;
-	assign LED_HDD   = (SW[3] | led_d) ? 1'bZ : 1'b0;
-	assign LED_USER  = (SW[3] | led_u) ? 1'bZ : 1'b0;
-`endif
+//`ifndef MISTER_DUAL_SDRAM
+//	assign LED_POWER = (SW[3] | led_p) ? 1'bZ : 1'b0;
+//	assign LED_HDD   = (SW[3] | led_d) ? 1'bZ : 1'b0;
+//	assign LED_USER  = (SW[3] | led_u) ? 1'bZ : 1'b0;
+//`endif
 
 //LEDs on main board
 assign LED = (led_overtake & led_state) | (~led_overtake & {1'b0,led_locked,1'b0, ~led_p, 1'b0, ~led_d, 1'b0, ~led_u});
 
 wire btn_r, btn_o, btn_u;
-`ifdef MISTER_DUAL_SDRAM
+//`ifdef MISTER_DUAL_SDRAM
 	assign {btn_r,btn_o,btn_u} = {mcp_btn[1],mcp_btn[2],mcp_btn[0]};
-`else
-	assign {btn_r,btn_o,btn_u} = ~{BTN_RESET,BTN_OSD,BTN_USER} | {mcp_btn[1],mcp_btn[2],mcp_btn[0]};
-`endif
+//`else
+//	assign {btn_r,btn_o,btn_u} = ~{BTN_RESET,BTN_OSD,BTN_USER} | {mcp_btn[1],mcp_btn[2],mcp_btn[0]};
+//`endif
 
 wire [2:0] mcp_btn;
 wire       mcp_sdcd;
+/*
 mcp23009 mcp23009
 (
 	.clk(FPGA_CLK2_50),
@@ -249,7 +255,7 @@ mcp23009 mcp23009
 	.scl(IO_SCL),
 	.sda(IO_SDA)
 );
-
+*/
 
 reg btn_user, btn_osd;
 always @(posedge FPGA_CLK2_50) begin
@@ -281,7 +287,7 @@ wire [31:0] gp_out;
 wire  [1:0] io_ver = 1; // 0 - obsolete. 1 - optimized HPS I/O. 2,3 - reserved for future.
 wire        io_wait;
 wire        io_wide;
-wire [15:0] io_dout;
+wire [15:0] io_dout;                  
 wire [15:0] io_din = gp_outr[15:0];
 wire        io_clk = gp_outr[17];
 wire        io_ss0 = gp_outr[18];
@@ -342,9 +348,10 @@ wire       direct_video = cfg[10];
 
 wire       audio_96k    = cfg[6];
 wire       csync_en     = cfg[3];
+
 wire       io_osd_vga   = io_ss1 & ~io_ss2;
 `ifndef MISTER_DUAL_SDRAM
-	wire    ypbpr_en     = cfg[5];
+        wire    ypbpr_en     = cfg[5];
 	wire    sog          = cfg[9];
 	wire    vga_scaler   = cfg[2] | vga_force_scaler;
 `endif
@@ -429,10 +436,11 @@ always@(posedge clk_sys) begin
 				acy2 <= -24'd2023767;
 				areset <= 1;
 			end
-			if(io_din[7:0] == 'h20) io_dout_sys <= 'b11;
-`ifndef MISTER_DEBUG_NOHDMI
+         		if(io_din[7:0] == 'h20) io_dout_sys <= 'b11;
+                    `ifndef MISTER_DEBUG_NOHDMI
 			if(io_din[7:0] == 'h40) io_dout_sys <= fb_crc;
-`endif
+                    `endif
+
 		end
 		else begin
 			cnt <= cnt + 1'd1;
@@ -446,13 +454,13 @@ always@(posedge clk_sys) begin
 				if(cnt<8) begin
 					case(cnt[2:0])
 						0: {HDMI_PR,vrr_mode,WIDTH} <= {io_din[15:14], io_din[11:0]};
-						1: HFP    <= io_din[11:0];
-						2: HS     <= {io_din[15], io_din[11:0]};
-						3: HBP    <= io_din[11:0];
-						4: HEIGHT <= io_din[11:0];
-						5: VFP    <= io_din[11:0];
-						6: VS     <= {io_din[15],io_din[11:0]};
-						7: VBP    <= io_din[11:0];
+						1: HFP        <= io_din[11:0];
+						2: HS         <= {io_din[15], io_din[11:0]};
+						3: HBP        <= io_din[11:0];
+						4: HEIGHT     <= io_din[11:0];
+						5: VFP        <= io_din[11:0];
+						6: VS         <= {io_din[15],io_din[11:0]};
+						7: VBP        <= io_din[11:0];
 					endcase
 `ifndef MISTER_DEBUG_NOHDMI
 					if(cnt == 1) begin
@@ -549,7 +557,6 @@ always@(posedge clk_sys) begin
 				^ arx[7:0] ^ arx[11:8] ^ arxy
 				^ ary[7:0] ^ ary[11:8];
 `endif
-
 	vs_d0 <= HDMI_TX_VS;
 	if(vs_d0 == HDMI_TX_VS) vs_d1 <= vs_d0;
 
@@ -898,10 +905,10 @@ reg [11:0] vmin;
 reg [11:0] vmax;
 reg [11:0] hdmi_height;
 reg [11:0] hdmi_width;
-
 reg [11:0] arx;
 reg [11:0] ary;
 reg        arxy;
+
 
 always @(posedge clk_vid) begin
 	reg [11:0] hmini,hmaxi,vmini,vmaxi;
@@ -914,25 +921,25 @@ always @(posedge clk_vid) begin
 
 	if(!ARY) begin
 		if(ARX == 1) begin
-			arx  <= arc1x[11:0];
-			ary  <= arc1y[11:0];
-			arxy <= arc1x[12] | arc1y[12];
+			arx <= arc1x[11:0];
+			ary <= arc1y[11:0];
+			arxy<= arc1x[12] | arc1y[12];
 		end
 		else if(ARX == 2) begin
-			arx  <= arc2x[11:0];
-			ary  <= arc2y[11:0];
-			arxy <= arc2x[12] | arc2y[12];
+			arx <= arc2x[11:0];
+			ary <= arc2y[11:0];
+			arxy<= arc2x[12] | arc2y[12];
 		end
 		else begin
-			arx  <= 0;
-			ary  <= 0;
-			arxy <= 0;
+			arx <= 0;
+			ary <= 0;
+			arxy<= 0;
 		end
 	end
 	else begin
-		arx  <= ARX[11:0];
-		ary  <= ARY[11:0];
-		arxy <= ARX[12] | ARY[12];
+		arx <= ARX[11:0];
+		ary <= ARY[11:0];
+		arxy<= ARX[12] | ARY[12];
 	end
 	
 	ar_md_start <= 0;
@@ -1053,14 +1060,14 @@ pll_hdmi pll_hdmi
 `endif
 
 //1920x1080@60 PCLK=148.5MHz CEA
-reg  [11:0] WIDTH   = 1920;
-reg  [11:0] HFP     = 88;
-reg  [12:0] HS      = 48;
-reg  [11:0] HBP     = 148;
-reg  [11:0] HEIGHT  = 1080;
-reg  [11:0] VFP     = 4;
-reg  [12:0] VS      = 5;
-reg  [11:0] VBP     = 36;
+reg  [11:0] WIDTH  = 1920;
+reg  [11:0] HFP    = 88;
+reg  [12:0] HS     = 48;
+reg  [11:0] HBP    = 148;
+reg  [11:0] HEIGHT = 1080;
+reg  [11:0] VFP    = 4;
+reg  [12:0] VS     = 5;
+reg  [11:0] VBP    = 36;
 reg         HDMI_PR = 0;
 
 wire [63:0] reconfig_to_pll;
@@ -1375,6 +1382,7 @@ osd vga_osd
 wire vga_cs_osd;
 csync csync_vga(clk_vid, vga_hs_osd, vga_vs_osd, vga_cs_osd);
 
+
 `ifndef MISTER_DUAL_SDRAM
 	wire VGA_DISABLE;
 	wire [23:0] vgas_o;
@@ -1450,14 +1458,14 @@ end
 
 /////////////////////////  Audio output  ////////////////////////////////
 
-assign SDCD_SPDIF =(SW[3] & ~spdif) ? 1'b0 : 1'bZ;
+//assign SDCD_SPDIF =(SW[3] & ~spdif) ? 1'b0 : 1'bZ;
 
 `ifndef MISTER_DUAL_SDRAM
 	wire analog_l, analog_r;
 
-	assign AUDIO_SPDIF = SW[3] ? 1'bZ : SW[0] ? HDMI_LRCLK : spdif;
-	assign AUDIO_R     = SW[3] ? 1'bZ : SW[0] ? HDMI_I2S   : analog_r;
-	assign AUDIO_L     = SW[3] ? 1'bZ : SW[0] ? HDMI_SCLK  : analog_l;
+	//assign AUDIO_SPDIF = SW[3] ? 1'bZ : SW[0] ? HDMI_LRCLK : spdif;
+	//assign AUDIO_R     = SW[3] ? 1'bZ : SW[0] ? HDMI_I2S   : analog_r;
+	//assign AUDIO_L     = SW[3] ? 1'bZ : SW[0] ? HDMI_SCLK  : analog_l;
 `endif
 
 assign HDMI_MCLK = clk_audio;
@@ -1555,7 +1563,7 @@ I2C_AV_Config audio_config (
 
 
 ////////////////  User I/O (USB 3.0 connector) /////////////////////////
-
+/*
 assign USER_IO[0] =                       !user_out[0]  ? 1'b0 : 1'bZ;
 assign USER_IO[1] =                       !user_out[1]  ? 1'b0 : 1'bZ;
 assign USER_IO[2] = !(SW[1] ? HDMI_I2S   : user_out[2]) ? 1'b0 : 1'bZ;
@@ -1571,7 +1579,15 @@ assign user_in[3] =         USER_IO[3];
 assign user_in[4] = SW[1] | USER_IO[4];
 assign user_in[5] = SW[1] | USER_IO[5];
 assign user_in[6] =         USER_IO[6];
+*/
 
+assign user_in[0] = 1'b0;
+assign user_in[1] = 1'b0;
+assign user_in[2] = 1'b0;
+assign user_in[3] = 1'b0;
+assign user_in[4] = 1'b0;
+assign user_in[5] = 1'b0;
+assign user_in[6] = 1'b0;
 
 ///////////////////  User module connection ////////////////////////////
 
@@ -1730,15 +1746,15 @@ emu emu
 
 	.SDRAM_DQ(SDRAM_DQ),
 	.SDRAM_A(SDRAM_A),
-	.SDRAM_DQML(SDRAM_DQML),
-	.SDRAM_DQMH(SDRAM_DQMH),
+	//.SDRAM_DQML(SDRAM_DQML),
+	//.SDRAM_DQMH(SDRAM_DQMH),
 	.SDRAM_BA(SDRAM_BA),
 	.SDRAM_nCS(SDRAM_nCS),
 	.SDRAM_nWE(SDRAM_nWE),
 	.SDRAM_nRAS(SDRAM_nRAS),
 	.SDRAM_nCAS(SDRAM_nCAS),
 	.SDRAM_CLK(SDRAM_CLK),
-	.SDRAM_CKE(SDRAM_CKE),
+	//.SDRAM_CKE(SDRAM_CKE),
 
 `ifdef MISTER_DUAL_SDRAM
 	.SDRAM2_DQ(SDRAM2_DQ),
@@ -1759,11 +1775,11 @@ emu emu
 	.SD_MOSI(SD_MOSI),
 	.SD_MISO(SD_MISO),
 	.SD_CS(SD_CS),
-`ifdef MISTER_DUAL_SDRAM
+//`ifdef MISTER_DUAL_SDRAM
 	.SD_CD(mcp_sdcd),
-`else
-	.SD_CD(mcp_sdcd & (SW[0] ? VGA_HS : (SW[3] | SDCD_SPDIF))),
-`endif
+//`else
+//	.SD_CD(mcp_sdcd & (SW[0] ? VGA_HS : (SW[3] | SDCD_SPDIF))),
+//`endif
 
 	.UART_CTS(uart_rts),
 	.UART_RTS(uart_cts),
