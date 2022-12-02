@@ -7,10 +7,10 @@ set_global_assignment -name DEVICE 5CSXFC6D6F31C8ES
 #============================================================
 # ADC
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_CONVST
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SCK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SDI
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SDO
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_CONVST
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SCK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SDI
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SDO
 #set_location_assignment PIN_U9 -to ADC_CONVST
 #set_location_assignment PIN_V10 -to ADC_SCK
 #set_location_assignment PIN_AC4 -to ADC_SDI
@@ -19,18 +19,18 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_SDO
 #============================================================
 # ARDUINO
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ARDUINO_IO[*]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ARDUINO_IO[*]
-set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to ARDUINO_IO[*]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ARDUINO_IO[*]
+#set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ARDUINO_IO[*]
+#set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to ARDUINO_IO[*]
 
 #============================================================
 # I2C LEDS/BUTTONS
 #============================================================
 #set_location_assignment PIN_U14 -to IO_SCL
 #set_location_assignment PIN_AG9 -to IO_SDA
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to IO_S*
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to IO_S*
-set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to IO_S*
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to IO_S*
+#set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to IO_S*
+#set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to IO_S*
 
 #============================================================
 # USER PORT
@@ -42,17 +42,17 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to IO_S*
 #set_location_assignment PIN_AH12 -to USER_IO[2]
 #set_location_assignment PIN_AH9 -to USER_IO[1]
 #set_location_assignment PIN_AG11 -to USER_IO[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to USER_IO[*]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to USER_IO[*]
-set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to USER_IO[*]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to USER_IO[*]
+#set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to USER_IO[*]
+#set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to USER_IO[*]
 
 #============================================================
 # SDIO_CD or SPDIF_OUT
 #============================================================
 #set_location_assignment PIN_AH7 -to SDCD_SPDIF
-set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SDCD_SPDIF
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDCD_SPDIF
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to SDCD_SPDIF
+#set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SDCD_SPDIF
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDCD_SPDIF
+#set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to SDCD_SPDIF
 
 #============================================================
 # SDRAM
@@ -112,21 +112,14 @@ set_instance_assignment -name ALLOW_SYNCH_CTRL_USAGE OFF -to *|SDRAM_*
 #set_location_assignment PIN_AH8  -to SD_SPI_MISO
 #set_location_assignment PIN_AG8  -to SD_SPI_CLK
 #set_location_assignment PIN_U13  -to SD_SPI_MOSI
-set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SD_SPI*
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SD_SPI*
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to SD_SPI*
+#set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SD_SPI*
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SD_SPI*
+#set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to SD_SPI*
 
 
 #============================================================
 # CLOCK
 #============================================================
-#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK1_50
-#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK2_50
-#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK3_50
-#set_location_assignment PIN_AF14 -to FPGA_CLK1_50
-#set_location_assignment PIN_AA16 -to FPGA_CLK2_50
-#set_location_assignment PIN_Y26 -to FPGA_CLK3_50
-
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK1_50
 set_instance_assignment -name IO_STANDARD "1.5 V" -to FPGA_CLK2_50
 set_instance_assignment -name IO_STANDARD "1.5 V" -to FPGA_CLK3_50
@@ -137,17 +130,17 @@ set_location_assignment PIN_AF14 -to FPGA_CLK3_50
 #============================================================
 # HDMI
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2C_*
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2S
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_LRCLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_MCLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_SCLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_*
-set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_D[*]
-set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_DE
-set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_HS
-set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_VS
-set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_CLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2C_*
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2S
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_LRCLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_MCLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_SCLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_*
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_D[*]
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_DE
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_HS
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_VS
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_CLK
 #set_location_assignment PIN_U10 -to HDMI_I2C_SCL
 #set_location_assignment PIN_AA4 -to HDMI_I2C_SDA
 #set_location_assignment PIN_T13 -to HDMI_I2S
@@ -189,28 +182,22 @@ set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_CLK
 #============================================================
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[1]
-set_location_assignment PIN_V25 -to KEY[0]
-set_location_assignment PIN_AC28 -to KEY[1]
+set_location_assignment PIN_AE9  -to KEY[0]
+set_location_assignment PIN_AE12 -to KEY[1]
+# KEY[0] = OSD  button
+# KEY[1] = USER button
 
 #============================================================
 # LED
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[7]
-set_location_assignment PIN_AD7 -to LED[0]
-#set_location_assignment PIN_AA24 -to LED[1]
-#set_location_assignment PIN_V16 -to LED[2]
-#set_location_assignment PIN_V15 -to LED[3]
-#set_location_assignment PIN_AF26 -to LED[4]
-#set_location_assignment PIN_AE26 -to LED[5]
-#set_location_assignment PIN_Y16 -to LED[6]
-#set_location_assignment PIN_AA23 -to LED[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED_0_USER
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED_1_HDD
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED_2_POWER
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED_3_LOCKED
+set_location_assignment PIN_AF10 -to LED_0_USER
+set_location_assignment PIN_AD10 -to LED_1_HDD
+set_location_assignment PIN_AE11 -to LED_2_POWER
+set_location_assignment PIN_AD7  -to LED_3_LOCKED
 
 #============================================================
 # SW
@@ -219,10 +206,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[3]
-set_location_assignment PIN_W25 -to SW[0]
-#set_location_assignment PIN_W24 -to SW[1]
-#set_location_assignment PIN_W21 -to SW[2]
-#set_location_assignment PIN_W20 -to SW[3]
+set_location_assignment PIN_W25  -to SW[0]
+set_location_assignment PIN_V25  -to SW[1]
+set_location_assignment PIN_AC28 -to SW[2]
+set_location_assignment PIN_AC29 -to SW[3]
 
 set_instance_assignment -name HPS_LOCATION HPSINTERFACEPERIPHERALSPIMASTER_X52_Y72_N111 -entity sys_top -to spi
 set_instance_assignment -name HPS_LOCATION HPSINTERFACEPERIPHERALUART_X52_Y67_N111 -entity sys_top -to uart
